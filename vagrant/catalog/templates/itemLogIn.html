@@ -1,0 +1,30 @@
+{% extends "main.html" %}
+  {% block content %}
+
+  <div class="col-md-12">
+    <h3 class="header">{{item.name}}</h3>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li><strong>{{message}}</strong></li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <div>{{item.description}}</div>
+
+    <div>
+      <a href='{{url_for('edit', item_name={{item.name}})}}' class="link">
+        Edit
+      </a>
+      |
+      <a href='{{url_for('delete',item_name={{item.name}})}}' class="link">
+        Delete
+      </a>
+    </div>
+  </div>
+
+  {% endblock %}
