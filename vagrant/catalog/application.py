@@ -96,10 +96,10 @@ def gconnect():
     login_session['username'] = data['name']
     login_session['email'] = data['email']
 
-    user_id = get_userid(login_session['email'])
+    user_id = getUserID(login_session['email'])
     if not user_id:
         print 'user_id does not exist'
-        user_id = create_user(login_session)
+        user_id = createUser(login_session)
         print 'user_id', user_id
     login_session['user_id'] = user_id
 
@@ -114,51 +114,47 @@ def gconnect():
 # Disconnect - Revoke a current user's token and reset their login_session
 @app.route('/gdisconnect')
 def gdisconnect():
-    access_token = login_session['access_token']
-    print 'In gdisconnect access token is %s', access_token
-    print 'User name is: '
-    print login_session['username']
-    if access_token is None:
- 	print 'Access Token is None'
-    	response = make_response(json.dumps('Current user not connected.'), 401)
-    	response.headers['Content-Type'] = 'application/json'
-    	return response
-    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % \
-        login_session['access_token']
+    credentials = login_session.get('credentials')
+    if credentials is None:
+        print 'Access Token is None'
+        response = make_response(
+            json.dumps('Current user not connected.'), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % credentials
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
     print 'result is '
     print result
     if result['status'] == '200':
-	del login_session['access_token']
+        del login_session['access_token']
     	del login_session['gplus_id']
     	del login_session['username']
     	del login_session['email']
-    	response = make_response(json.dumps('Successfully disconnected.'), 200)
-    	response.headers['Content-Type'] = 'application/json'
-    	return response
+    	flash("You have successfully been logged out.")
+        return redirect(url_for('showRestaurants'))
     else:
-    	response = make_response(json.dumps('Failed to revoke token for \
-            given user.', 400))
+    	response = make_response(json.dumps(
+            'Failed to revoke token for given user.', 400))
     	response.headers['Content-Type'] = 'application/json'
     	return response
 
 # User helper functions
 def createUser(login_session):
-    newUser = User(name=login_session['username'],
+    newUser = Users(name=login_session['username'],
                     email=login_session['email'])
     session.add(newUser)
     session.commit()
-    user = session.query(User).filter_by(email=login_session['email']).one()
+    user = session.query(Users).filter_by(email=login_session['email']).one()
     return user.id
 
 def getUserInfo(user_id):
-    user = session.query(User).filter_by(id=user_id).one()
+    user = session.query(Users).filter_by(id=user_id).one()
     return user
 
 def getUserID(email):
     try:
-        user = session.query(User).filter_by(email=email).one()
+        user = session.query(Users).filter_by(email=email).one()
         return user.id
     except:
         return None
@@ -230,13 +226,11 @@ def edit(item_name):
             editItem.name = request.form['name']
         if request.form['description']:
             editItem.description = request.form['description']
-        if request.form['category_name']:
-            editItem.category_name = request.form['category']
-        if login_session['user_id']:
-            editItem.user_id = login_session['user_id']
+        editItem.category_name = request.form['category']
+        editItem.user_id = login_session['user_id']
         session.add(editItem)
         session.commit()
-        flash("Item %s Successfully Edited" % eidtItem.name)
+        flash("Item %s Successfully Edited" % editItem.name)
         return redirect(url_for('item', category_name=editItem.category_name, \
                                 item_name=editItem.name))
     else:
