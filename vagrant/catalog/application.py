@@ -127,12 +127,13 @@ def gdisconnect():
     print 'result is '
     print result
     if result['status'] == '200':
-        del login_session['access_token']
     	del login_session['gplus_id']
+        del login_session['credentials']
     	del login_session['username']
     	del login_session['email']
+        del login_session['user_id']
     	flash("You have successfully been logged out.")
-        return redirect(url_for('showRestaurants'))
+        return redirect(url_for('catalog'))
     else:
     	response = make_response(json.dumps(
             'Failed to revoke token for given user.', 400))

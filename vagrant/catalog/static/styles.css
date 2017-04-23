@@ -1,0 +1,66 @@
+.container-fluid {
+	padding: 0px;
+}
+
+.banner {
+	background-color: #000099;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.title {
+	font-size: 40px;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.logBlock{
+	margin-top: 19px;
+	padding-right: 0px;
+}
+
+.log {
+	color: #ffffff;
+	background-color: #ff6600;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.body {
+	background-color: #a6a6a6;
+	margin: 0px;
+}
+
+.bodyContent {
+	margin-top: 15px;
+	margin-bottom: 15px;
+	background-color: #ffffff;
+}
+
+.categories {
+	margin-top: 10px;
+	border-right: 2px solid grey;
+}
+
+.header {
+	font-size: 30px;
+	font-weight: bold;
+	color: #000099;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-top: 10px;
+}
+
+.link {
+	color: red;
+}
+
+.itemCategory {
+	color: grey;
+}
+
+.click {
+	padding-bottom: 10px;
+}

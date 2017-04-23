@@ -1,46 +1,50 @@
 {% extends "main.html" %}
   {% block content %}
 
-  <div class="row">
-    <div class="col-md-3 text-left">
-      <h3 class="header">Categories</h3>
+  <div class="row body">
+    <div class="col-md-2"></div>
 
-      {% for category in categories %}
-        <div>
-          <a href='{{url_for('items',
-                    category_name=category.name)}}'
-                    class="link">{{category.name}}
-          </a>
-        </div>
-      {% endfor %}
+    <div class="col-md-8 bodyContent">
+      <div class="col-md-3 text-left categories">
+        <h3 class="header">Categories</h3>
+
+        {% for category in categories %}
+          <div>
+            <a class="link" href='{{url_for('items',
+                      category_name=category.name)}}'>{{category.name}}
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="col-md-9 text-left">
+        <a class="link" href='{{url_for('add')}}'>Add Item</a>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul>
+              {% for message in messages %}
+                <li><strong>{{message}}</strong></li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+
+        <h3 class="header">Latest Items</h3>
+
+        {% for item in items %}
+          <div>
+            <a class="link" href='{{url_for('item',
+                      category_name=item.category_name, item_name=item.name)}}'>
+              {{item.name}}
+            </a>
+            <span class="item-category">({{item.category_name}})</span>
+          </div>
+        {% endfor %}
+      </div>
     </div>
 
-    <div class="col-md-9 text-left">
-      <a href='{{url_for('add')}}'>Add Item</a>
-
-      {% with messages = get_flashed_messages() %}
-        {% if messages %}
-          <ul>
-            {% for message in messages %}
-              <li><strong>{{message}}</strong></li>
-            {% endfor %}
-          </ul>
-        {% endif %}
-      {% endwith %}
-
-      <h3 class="header">Latest Items</h3>
-
-      {% for item in items %}
-        <div>
-          <a href='{{url_for('item',
-                    category_name=item.category_name, item_name=item.name)}}'
-                    class="link">
-            {{item.name}}
-          </a>
-          <span class="item-category">({{item.category_name}})</span>
-        </div>
-      {% endfor %}
-    </div>
+    <div class="col-md-2"></div>
   </div>
 
   {% endblock %}

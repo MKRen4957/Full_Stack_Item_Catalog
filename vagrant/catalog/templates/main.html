@@ -4,27 +4,31 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="{{url_for('static',
                                   filename='bootstrap.min.css')}}">
-    <link rel=stylesheet type=text/css href="{{url_for('static',
+    <link rel="stylesheet" type=text/css href="{{url_for('static',
                                               filename='styles.css')}}">
 
     <title>Main Page</title>
   </head>
 
   <body>
-    <div class="container">
-      <div class="row top-menu">
+    <div class="container-fluid">
+      <div class="row banner">
 
-      	<div class="col-md-6 text-left">
-      		<a href="{{url_for('catalog')}}">Catalog App</a>
+        <div class="col-md-2"></div>
+
+      	<div class="col-md-4 text-left titleBlock">
+      		<a href="{{url_for('catalog')}}" class="title">Catalog App</a>
       	</div>
 
-      	<div class="col-md-6 text-right">
-          {% if not session.logged_in %}
-      			<a href="{{url_for('showLogin')}}">Login</a>
+      	<div class="col-md-4 text-right logBlock">
+          {% if 'username' not in session %}
+      			<a href="{{url_for('showLogin')}}" class="log">Login</a>
           {% else %}
-            <a href="{{url_for('gdisconnect')}}">Logout</a>
+            <a href="{{url_for('gdisconnect')}}" class="log">Logout</a>
           {% endif %}
       	</div>
+
+        <div class="col-md-2"></div>
       </div>
 
       {% block content %}

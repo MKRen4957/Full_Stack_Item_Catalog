@@ -1,32 +1,49 @@
 {% extends "main.html" %}
   {% block content %}
 
-  <div class="row">
-    <div class="col-md-12">
+  <div class="row body">
+    <div class="col-md-2"></div>
+
+    <div class="col-md-8 bodyContent">
       <form action="{{ url_for('edit',item_name=item.name)}}" method = 'POST'>
 
-        <h3>Edit Item</h3>
+        <h3 class="header">Edit Item</h3>
+
+        <br>
 
         <div>Title</div>
         <div>
           <input type="text" name="name" placeholder="{{item.name}}">
         </div>
 
+        <br>
+
         <div>Description</div>
         <div>
           <input type="text" name="description" placeholder="{{item.description}}">
         </div>
 
-        <div>Category</div>
-        <select name="category">
-          {% for category in categories %}
-            <option value="{{category.name}}">{{category.name}}</option>
-          {% endfor %}
-        </select>
+        <br>
 
-        <input type="submit" value="Submit">
+        <div>Category</div>
+        <div class="">
+          <select name="category">
+            {% for category in categories %}
+              <option value="{{category.name}}">{{category.name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <br>
+
+        <div class="click">
+          <input type="submit" value="Submit">
+        </div>
+
       </form>
     </div>
+
+    <div class="col-md-2"></div>
   </div>
 
   {% endblock %}
